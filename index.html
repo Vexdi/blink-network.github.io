@@ -6,7 +6,7 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>Blink Network</title>
 
-<!-- Favicon -->
+    <!-- Favicon -->
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     
     <style>
@@ -17,6 +17,7 @@
             background-color: #333;
             color: white;
             text-align: center;
+            overflow-x: hidden; /* Prevents horizontal scroll */
         }
 
         /* Container for header elements */
@@ -27,6 +28,9 @@
             padding: 40px 20px;
             background-color: #111;
             flex-direction: column;
+            position: relative;
+            max-width: 100vw; /* Ensures header content fits within viewport */
+            overflow-wrap: break-word; /* Allows long text to wrap */
         }
 
         .header img {
@@ -39,6 +43,7 @@
             font-size: 3.5em;
             font-weight: bold;
             margin-bottom: 20px;
+            max-width: 100%; /* Prevents overflow */
         }
 
         /* Navigation Menu */
@@ -46,6 +51,7 @@
             display: flex;
             gap: 25px;
             justify-content: center;
+            flex-wrap: wrap; /* Allows menu items to wrap on smaller screens */
         }
 
         nav a {
@@ -55,9 +61,104 @@
             padding: 10px 20px;
             border-radius: 5px;
             transition: all 0.3s ease;
+            white-space: nowrap; /* Prevents the text from wrapping */
         }
 
         nav a:hover {
+            background-color: white;
+            color: #111;
+        }
+
+        /* Hamburger Menu Styles */
+        .hamburger {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 35px;
+            height: 35px;
+            background-color: transparent;
+            border: 1px solid white;
+            border-radius: 5px;
+            padding: 5px;
+            cursor: pointer;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger div {
+            width: 100%;
+            height: 4px;
+            background-color: white;
+            border-radius: 5px;
+            margin: 6px 0;
+        }
+
+        .hamburger:hover {
+            background-color: white;
+            border: 1px solid white;
+        }
+
+        .hamburger:hover div {
+            background-color: #111;
+        }
+
+        /* Socials Text and Icons Row */
+        .socials-container {
+            position: absolute;
+            top: 20px;
+            right: -500px; /* Moved far to the right to fully hide */
+            width: auto;
+            height: auto;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+            background-color: #222; /* Dark background for the container */
+            padding: 10px; /* Padding for spacing */
+            border-radius: 10px; /* Optional: Adds rounded corners */
+        }
+
+        .socials-container.open {
+            right: 70px; /* Shown next to the hamburger button */
+        }
+
+        /* Socials text with fade-in effect */
+        .socials-text {
+            margin-right: 15px;
+            opacity: 0;
+            font-size: 1.2em;
+            color: white;
+            transition: opacity 0.3s ease;
+        }
+
+        .socials-container.open .socials-text {
+            opacity: 1; /* Fade in */
+        }
+
+        /* Social icons arranged in a row */
+        .social-icons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-icons a {
+            text-decoration: none;
+            color: white;
+            border: 1px solid white;
+            border-radius: 5px;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .social-icons a img {
+            width: 40px;
+            height: 40px;
+        }
+
+        .social-icons a:hover {
             background-color: white;
             color: #111;
         }
@@ -67,6 +168,7 @@
             padding: 100px 20px;
             background-color: #444;
             min-height: calc(100vh - 200px);
+            max-width: 100vw; /* Ensure it fits within viewport */
         }
 
         .about h1 {
@@ -78,6 +180,7 @@
             line-height: 1.6;
             max-width: 800px;
             margin: 20px auto;
+            word-wrap: break-word; /* Wraps long words */
         }
 
         /* News Section */
@@ -142,61 +245,52 @@
             width: 100%;
         }
 
-        /* Mobile Styles */
+        /* Responsive Styles */
         @media (max-width: 768px) {
-            .header {
-                flex-direction: column;
+            .hamburger {
+                top: 80px; /* Move below the logo to prevent overlap */
+                right: 10px; /* Closer to the edge for better mobile use */
+                width: 30px;
+                height: 30px;
             }
 
-            .header img {
-                align-self: center;
-            }
-
-            .header span {
-                text-align: center;
-            }
-
-            nav {
-                flex-direction: row;
-                justify-content: center;
-                gap: 5px;
-                flex-wrap: wrap;
-            }
-
-            .about h1 {
-                font-size: 2em;
-            }
-
-            .about p {
-                font-size: 1em;
-            }
-
-            .news-item h2 {
-                font-size: 1.2em;
-            }
-
-            .store-box {
-                font-size: 1em;
-            }
-        }
-
-        /* Desktop styles - Center Aligned Logo, Text, Buttons */
-        @media (min-width: 769px) {
-            .header {
-                flex-direction: column;
-            }
-
-            .header img {
-                margin-bottom: 10px;
+            .hamburger div {
+                height: 3px;
             }
 
             .header span {
-                text-align: center;
-                margin-bottom: 20px;
+                font-size: 2.5em; /* Adjust the text size for smaller screens */
             }
 
             nav {
-                justify-content: center;
+                flex-direction: column; /* Stack menu items vertically */
+                gap: 15px;
+            }
+
+            nav a {
+                padding: 8px 15px;
+            }
+
+            .about {
+                padding: 50px 10px; /* Less padding for mobile */
+            }
+
+            .social-icons a {
+                width: 50px;
+                height: 50px;
+            }
+
+            .social-icons a img {
+                width: 30px;
+                height: 30px;
+            }
+
+            .socials-container {
+                right: -500px; /* Socials also further hidden on mobile */
+            }
+
+            .socials-container.open {
+                right: 10px; /* Show closer to the screen edge on mobile */
             }
         }
     </style>
@@ -213,33 +307,62 @@
             <a href='#news'>News</a>
             <a href='#about'>About</a>
         </nav>
+        <!-- Hamburger Menu Button -->
+        <button class="hamburger" onclick="toggleSocials()">
+            <div></div>
+            <div></div>
+            <div></div>
+        </button>
     </header>
 
+    <!-- Socials Section -->
+    <div class="socials-container" id="socials">
+        <div class="socials-text"></div>
+        <div class="social-icons">
+            <a href="https://discord.com"><img src="discord-icon.png" alt="Discord"></a>
+            <a href="https://tiktok.com"><img src="tiktok-icon.png" alt="TikTok"></a>
+            <a href="https://instagram.com"><img src="instagram-icon.png" alt="Instagram"></a>
+            <a href="https://youtube.com"><img src="youtube-icon.png" alt="YouTube"></a>
+            <a href="https://x.com"><img src="x-icon.png" alt="X (formerly Twitter)"></a>
+        </div>
+    </div>
+
     <!-- About Section -->
-    <section class='about' id='about'>
-        <h1>About Blink Network</h1>
-        <p>Blink Network is a project I began in 2023, though I wasn't able to complete it at that time. Since then, I've gained new insights and motivation, and now, at 17, I'm relaunching the initiative with the support of friends. My goal is to build a Minecraft server that offers a unique and engaging experience for players.</p>
+    <section class="about" id="about">
+        <h1>About Us</h1>
+        <p>Welcome to Blink Network. We are a community-driven platform designed to enhance your online experience.</p>
     </section>
 
     <!-- News Section -->
-    <section class='news-container' id='news'>
-        <div class='news-item'>
-            <h2>Under Construction!</h2>
-            <p>Blink Network is in the works! More news will be posted here aswell as in the discord server (Coming soon!)</p>
-            <div class='date'>January 14, 2025</div>
+    <section class="news" id="news">
+        <div class="news-container">
+            <div class="news-item">
+                <h2>Big Event Coming Soon</h2>
+                <p>We are excited to announce our biggest event yet! Stay tuned for more updates.</p>
+                <div class="date">January 15, 2025</div>
+            </div>
         </div>
     </section>
 
     <!-- Store Section -->
-    <section class='store-container' id='store'>
-        <div class='store-box'>
-            Add Tebex Store Link Here
+    <section class="store" id="store">
+        <div class="store-container">
+            <div class="store-box">
+                Our Store Coming Soon!
+            </div>
         </div>
     </section>
 
-    <!-- Footer -->
+    <!-- Footer Section -->
     <footer>
-        &copy; Blink Studios
+        <p>&copy; 2025 Blink Network. All rights reserved.</p>
     </footer>
+
+    <script>
+        function toggleSocials() {
+            const socials = document.getElementById('socials');
+            socials.classList.toggle('open');
+        }
+    </script>
 </body>
 </html>
